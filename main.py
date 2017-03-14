@@ -12,14 +12,16 @@ args = vars(ap.parse_args())
 camera = cv2.VideoCapture(0)
 time.sleep(0.25)
 
-# initialize the first frame in the video stream
+# initialize all the things
 firstFrame = None
+motionCount = 0
 
 # loop over the frames of the video
 while True:
     # grab the current frame and initialize the occupied/unoccupied
     # text
     (grabbed, frame) = camera.read()
+    motion = False
 
     # if the frame could not be grabbed, then we have reached the end
     # of the video
@@ -56,12 +58,24 @@ while True:
         # compute the bounding box for the contour and draw it on the frame
         (x, y, w, h) = cv2.boundingRect(c)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        motion = True
 
     # show the frame and record if the user presses a key
     cv2.imshow("Security Feed", frame)
     cv2.imshow("Thresh", thresh)
     cv2.imshow("Frame Delta", frameDelta)
     key = cv2.waitKey(1) & 0xFF
+
+    if motion:
+        # Protect motion state against false positive by resetting base frame
+        # if motion persists more than X iterations
+        motionCount += 1
+
+        # TODO - Take motion-dependent actions here
+
+        if motionCount >= 25:
+            firstFrame = gray
+            motionCount = 0
 
     # if the `q` key is pressed, break from the loop
     if key == ord("q"):
