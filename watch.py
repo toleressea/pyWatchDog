@@ -64,12 +64,16 @@ while True:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         motion = True
 
+    # draw quit instructions
+    cv2.putText(frame, "Quit (Q)", (10, 20),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
     # draw countermeasures toggle state
-    cv2.putText(frame, "Countermeasures (C): {0}".format(str(countermeasures)), (10, 20),
+    cv2.putText(frame, "Countermeasures (C): {0}".format(str(countermeasures)), (10, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
     # draw take screenshots toggle state
-    cv2.putText(frame, "Take Screenshots (T): {0}".format(str(takeScreenshots)), (10, 40),
+    cv2.putText(frame, "Take Screenshots (T): {0}".format(str(takeScreenshots)), (10, 60),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
 
