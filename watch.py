@@ -105,6 +105,11 @@ while True:
         if takeScreenshots:
             screenshot.takeScreenshot(args["ss_directory"], frame)
 
+            # delay screenshots if not waiting for sound duration to avoid
+            # creating far too many screenshots
+            if not playSounds:
+                time.sleep(args["tone_duration"])
+
         if motionCount >= 25:
             firstFrame = gray
             motionCount = 0
