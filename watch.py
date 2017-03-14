@@ -5,9 +5,9 @@ import cv2
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-a", "--min-area", type=int, default=500, help="minimum area size")
-ap.add_argument("-c", type=bool, default=True, help="toggle countermeasures")
-ap.add_argument("-ss", type=bool, default=True, help="toggle take screenshots")
+ap.add_argument("--min-area", type=int, default=500, help="minimum area size")
+ap.add_argument("--sound", type=bool, default=True, help="toggle sound on motion")
+ap.add_argument("--screenshot", type=bool, default=True, help="toggle screenshot on motion")
 args = vars(ap.parse_args())
 
 # default to webcam
@@ -17,8 +17,8 @@ time.sleep(0.25)
 # initialize all the things
 firstFrame = None
 motionCount = 0
-countermeasures = args["c"]
-takeScreenshots = args["ss"]
+playSounds = args["sound"]
+takeScreenshots = args["screenshot"]
 
 # loop over the frames of the video
 while True:
@@ -69,7 +69,7 @@ while True:
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
     # draw countermeasures toggle state
-    cv2.putText(frame, "Countermeasures (C): {0}".format(str(countermeasures)), (10, 40),
+    cv2.putText(frame, "Play Sounds (S): {0}".format(str(playSounds)), (10, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
     # draw take screenshots toggle state
@@ -89,7 +89,7 @@ while True:
         motionCount += 1
 
         # TODO - Take motion-dependent actions here
-        if countermeasures:
+        if playSounds:
             # TODO - repel invaders here!
             pass
 
@@ -104,8 +104,8 @@ while True:
     # if the `q` key is pressed, break from the loop
     if key == ord("q"):
         break
-    elif key == ord("c"):
-        countermeasures = not countermeasures
+    elif key == ord("s"):
+        playSounds = not playSounds
     elif key == ord("t"):
         takeScreenshots = not takeScreenshots
 
