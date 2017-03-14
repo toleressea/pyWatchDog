@@ -8,6 +8,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--min-area", type=int, default=500, help="minimum area size")
 ap.add_argument("--sound", type=bool, default=True, help="toggle sound on motion")
 ap.add_argument("--screenshot", type=bool, default=True, help="toggle screenshot on motion")
+ap.add_argument("--tone-frequency", type=int, default=40000, help="set tone frequency")
+ap.add_argument("--tone-duration", type=float, default=0.1, help="set tone duration (sec)")
 args = vars(ap.parse_args())
 
 # default to webcam
@@ -17,7 +19,11 @@ time.sleep(0.25)
 # initialize all the things
 firstFrame = None
 motionCount = 0
+
+# check arguments and import if needed
 playSounds = args["sound"]
+if playSounds:
+    import sound
 takeScreenshots = args["screenshot"]
 
 # loop over the frames of the video
@@ -90,8 +96,7 @@ while True:
 
         # TODO - Take motion-dependent actions here
         if playSounds:
-            # TODO - repel invaders here!
-            pass
+            sound.playTone(args["tone_frequency"], args["tone_duration"])
 
         if takeScreenshots:
             # TODO - do the screenshot stuff here!
