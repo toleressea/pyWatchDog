@@ -1,6 +1,4 @@
-# import the necessary packages
 import argparse
-import datetime
 import imutils
 import time
 import cv2
@@ -22,7 +20,6 @@ while True:
     # grab the current frame and initialize the occupied/unoccupied
     # text
     (grabbed, frame) = camera.read()
-    text = "Unoccupied"
 
     # if the frame could not be grabbed, then we have reached the end
     # of the video
@@ -56,17 +53,9 @@ while True:
         if cv2.contourArea(c) < args["min_area"]:
             continue
 
-        # compute the bounding box for the contour, draw it on the frame,
-        # and update the text
+        # compute the bounding box for the contour and draw it on the frame
         (x, y, w, h) = cv2.boundingRect(c)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        text = "Occupied"
-
-    # draw the text and timestamp on the frame
-    cv2.putText(frame, "Room Status: {}".format(text), (10, 20),
-        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-    cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
-        (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
     # show the frame and record if the user presses a key
     cv2.imshow("Security Feed", frame)
