@@ -10,6 +10,7 @@ ap.add_argument("--sound", type=bool, default=True, help="toggle sound on motion
 ap.add_argument("--screenshot", type=bool, default=True, help="toggle screenshot on motion")
 ap.add_argument("--tone-frequency", type=int, default=40000, help="set tone frequency")
 ap.add_argument("--tone-duration", type=float, default=0.1, help="set tone duration (sec)")
+ap.add_argument("--ss-directory", type=str, default="screenshots", help="set screenshots subdir")
 args = vars(ap.parse_args())
 
 # default to webcam
@@ -24,7 +25,10 @@ motionCount = 0
 playSounds = args["sound"]
 if playSounds:
     import sound
+
 takeScreenshots = args["screenshot"]
+if takeScreenshots:
+    import screenshot
 
 # loop over the frames of the video
 while True:
@@ -94,13 +98,12 @@ while True:
         # if motion persists more than X iterations
         motionCount += 1
 
-        # TODO - Take motion-dependent actions here
+        # Take motion-dependent actions here
         if playSounds:
             sound.playTone(args["tone_frequency"], args["tone_duration"])
 
         if takeScreenshots:
-            # TODO - do the screenshot stuff here!
-            pass
+            screenshot.takeScreenshot(args["ss_directory"], frame)
 
         if motionCount >= 25:
             firstFrame = gray
