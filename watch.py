@@ -7,6 +7,7 @@ import cv2
 ap = argparse.ArgumentParser()
 ap.add_argument("-a", "--min-area", type=int, default=500, help="minimum area size")
 ap.add_argument("-c", type=bool, default=True, help="toggle countermeasures")
+ap.add_argument("-ss", type=bool, default=True, help="toggle take screenshots")
 args = vars(ap.parse_args())
 
 # default to webcam
@@ -17,6 +18,7 @@ time.sleep(0.25)
 firstFrame = None
 motionCount = 0
 countermeasures = args["c"]
+takeScreenshots = args["ss"]
 
 # loop over the frames of the video
 while True:
@@ -66,6 +68,11 @@ while True:
     cv2.putText(frame, "Countermeasures (C): {0}".format(str(countermeasures)), (10, 20),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
+    # draw take screenshots toggle state
+    cv2.putText(frame, "Take Screenshots (T): {0}".format(str(takeScreenshots)), (10, 40),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+
     # show the frame and record if the user presses a key
     cv2.imshow("Security Feed", frame)
     cv2.imshow("Thresh", thresh)
@@ -82,6 +89,10 @@ while True:
             # TODO - repel invaders here!
             pass
 
+        if takeScreenshots:
+            # TODO - do the screenshot stuff here!
+            pass
+
         if motionCount >= 25:
             firstFrame = gray
             motionCount = 0
@@ -91,6 +102,8 @@ while True:
         break
     elif key == ord("c"):
         countermeasures = not countermeasures
+    elif key == ord("t"):
+        takeScreenshots = not takeScreenshots
 
 # cleanup the camera and close any open windows
 camera.release()
