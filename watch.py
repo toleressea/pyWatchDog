@@ -2,6 +2,23 @@ import argparse
 import imutils
 import time
 import cv2
+import audiere
+import datetime
+import os
+
+def playTone(frequency, duration):
+    d = audiere.open_device()
+    t = d.create_tone(frequency)
+    t.play()
+    time.sleep(duration)
+    t.stop()
+
+def takeScreenshot(dir, frame):
+    if not os.path.isdir(dir):
+        os.mkdir(dir)
+
+    sFilename = os.path.join(dir, datetime.datetime.now().strftime("%y%m%d_%H-%M-%S-%f") + '.png')
+    cv2.imwrite(sFilename, frame)
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -20,15 +37,8 @@ time.sleep(0.25)
 # initialize all the things
 firstFrame = None
 motionCount = 0
-
-# check arguments and import if needed
 playSounds = args["sound"]
-if playSounds:
-    import sound
-
 takeScreenshots = args["screenshot"]
-if takeScreenshots:
-    import screenshot
 
 # loop over the frames of the video
 while True:
@@ -100,10 +110,10 @@ while True:
 
         # Take motion-dependent actions here
         if playSounds:
-            sound.playTone(args["tone_frequency"], args["tone_duration"])
+            playTone(args["tone_frequency"], args["tone_duration"])
 
         if takeScreenshots:
-            screenshot.takeScreenshot(args["ss_directory"], frame)
+            takeScreenshot(args["ss_directory"], frame)
 
             # delay screenshots if not waiting for sound duration to avoid
             # creating far too many screenshots
