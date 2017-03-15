@@ -22,7 +22,8 @@ def takeScreenshot(dir, frame):
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("--min-area", type=int, default=500, help="minimum area size")
+ap.add_argument("--min-area", type=int, default=500, help="minimum area size to trigger motion")
+ap.add_argument("--diff-threshold", type=int, default=100, help="threshold for recognizing differences")
 ap.add_argument("--sound", type=bool, default=False, help="toggle sound on motion")
 ap.add_argument("--screenshot", type=bool, default=False, help="toggle screenshot on motion")
 ap.add_argument("--tone-frequency", type=int, default=40000, help="set tone frequency")
@@ -65,7 +66,7 @@ while True:
     # compute the absolute difference between the current frame and
     # first frame
     frameDelta = cv2.absdiff(firstFrame, gray)
-    thresh = cv2.threshold(frameDelta, 100, 255, cv2.THRESH_BINARY)[1]
+    thresh = cv2.threshold(frameDelta, args["diff_threshold"], 255, cv2.THRESH_BINARY)[1]
 
     # dilate the thresholded image to fill in holes, then find contours
     # on thresholded image

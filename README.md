@@ -14,8 +14,9 @@ Run the script:
 
 By default, the script will run with sound playing and screenshotting functionality turned off. The following command contains all optional commandline arguments and their default values:
 
-    python watch.py --min-area=500 --sound --screenshot --tone-frequency=40000 
-                    --tone-duration=0.1 --ss-directory="screenshots"
+    python watch.py --min-area=500 --diff-threshold=100
+                    --sound --tone-frequency=40000 --tone-duration=0.1
+                    --screenshot --ss-directory="screenshots"
 
 There are also three key bindings active when the script is running:
 
