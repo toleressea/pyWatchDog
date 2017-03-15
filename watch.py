@@ -6,8 +6,8 @@ import cv2
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("--min-area", type=int, default=500, help="minimum area size")
-ap.add_argument("--sound", type=bool, default=True, help="toggle sound on motion")
-ap.add_argument("--screenshot", type=bool, default=True, help="toggle screenshot on motion")
+ap.add_argument("--sound", type=bool, default=False, help="toggle sound on motion")
+ap.add_argument("--screenshot", type=bool, default=False, help="toggle screenshot on motion")
 ap.add_argument("--tone-frequency", type=int, default=40000, help="set tone frequency")
 ap.add_argument("--tone-duration", type=float, default=0.1, help="set tone duration (sec)")
 ap.add_argument("--ss-directory", type=str, default="screenshots", help="set screenshots subdir")
